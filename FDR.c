@@ -14,7 +14,7 @@ int main()
 
     //hallamos la normalizacion y la mostramos
     normSimpson(l,&p);
-    printf("%lf",p);
+    printf("La FDR para s1 es: 4pi(r^2)/(%lf)*|exp(-r/2)|^2",p);
 
     return 0;
 }
@@ -57,15 +57,16 @@ double s3(double r)
 //Definimos la funcion normalizadora
 void normSimpson(double l, double *p)
 {
-    double a,b;
+    double a;
 
-    b = a+0.1;   //Limite superior del intervalo de integracion
     *p = 0.;     //Puntero va almecenar la suma de la integral a intervalos [a,b]
 
     for(a=0;a<=l;a+=0.1)
     {
+        double b;   //Limite superior del intervalo de integracion
+
+        b = a+0.1;
         *p = (*p)+(b-a)/6*(f1(a)+f1(b)+4.*f1((a+b)/2.));  //Integral segun regla de Simpson, que guardamos en el puntero
-        printf("%lf",*p);
     }
 
     return;
