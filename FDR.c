@@ -59,7 +59,7 @@ void normSimpson(double l, double *p)
 {
     double a;
 
-    *p = 0.;     //Puntero va almecenar la suma de la integral a intervalos [a,b]
+    *p = 0.;     //Puntero va a almecenar la suma de la integral a intervalos [a,b]
 
     for(a=0;a<=l;a+=0.1)
     {
