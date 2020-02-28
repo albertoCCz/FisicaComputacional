@@ -1,4 +1,4 @@
-# include <stdio.h>
+#include <stdio.h>
 #include <math.h>
 
 double s1(double r),s2(double r),s3(double r),f1(double r),f2(double r),f3(double r);
