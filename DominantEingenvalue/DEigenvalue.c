@@ -2,11 +2,12 @@
 
 int main()
 {
-    int n,i,j,iter;
+    int n,i,j,k,iter;
+    double b,nom = 0.,den = 0.,lambda;
 
     printf("Orden de A:\n"); //creamos la matriz A de orden n*n
     scanf("%d",&n);
-    double a[n][n];
+    double a[n][n],xA[n][n];
 
     double x0[n][1];   //creamos el vector propio en aproximacion cero
     for(i=0;i<=n-1;i++)
@@ -46,15 +47,47 @@ int main()
     printf("Numero de iteraciones (a mayor numero mayor precision):\t"); //numero de iteraciones a realizar
     scanf("%d",&iter);
 
+    for(k=0;k<iter;k++)
+    {
+        for(i=0;i<=n-1;i++) //hacemos el producto de A*x
+        {
+            for(j=0;j<=n-1;j++)
+            {
+                x[i][0] += a[i][j]*x0[j][0];
+
+                if(i>0)
+                //save in b the largest component of x
+                {
+                    if(x[i][0]>x[i-1][0])
+                    {
+                        b = x[i][0];
+                    }
+                }
+            }
+        }
+        for(i=0;i<n;i++)
+        //dividimos x entre b
+        {
+            x0[i][0] = x[i][0]/b;
+        }
+    }
+
     for(i=0;i<=n-1;i++) //hacemos el producto de A*x
     {
         for(j=0;j<=n-1;j++)
         {
-                x[i][0] += a[i][j]*x0[j][0];
+            xA[i][0] += a[i][j]*x0[j][0];
         }
     }
 
-    printf("x es: %lf\t%lf\n",x[0][0],x[1][0]);
+    for(i=0;i<n;i++) //calulamos lambda mediante el cociente de Rayleight
+    {
+        nom += x0[i][0]*xA[i][0];
+        den += x0[i][0]*x0[i][0];
+    }
+
+    lambda = nom/den;
+    printf("El autovalor dominante es:\nLambda = %lf\n",lambda);
 
     return 0;
 }
