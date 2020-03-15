@@ -10,7 +10,7 @@ void velocidad(double **r, double **v, double **a, double **ah, double h, int n)
 
 int main()
 {
-    int i,j,iter,n,N = 10000;
+    int i,iter,n,N = 10000;
     double h = 0.1;
     FILE *f1,*f2;
 
@@ -33,15 +33,6 @@ int main()
         *(ah+i) = (double *)malloc(2*sizeof(double));
     }
 
-    for(i=0;i<n;i++)
-    {
-        for(j=0;j<2;j++)
-        {
-            a[i][j] = 0.;
-            ah[i][j] = 0.;
-        }
-    }
-
     //leemos del fichero las condiciones iniciales de la posicion y la velocidad
     for(i=0;i<n;i++)
     {
@@ -55,7 +46,7 @@ int main()
     for(iter=0;iter<N;iter++)
     {
         posicion(r,v,ah,h,n);
-        fprintf(f2,"%lf\t%lf\n",**(r+3),*(*(r+3)+1));
+        fprintf(f2,"%lf\t%lf\n",**(r+6),*(*(r+6)+1));
         copyVector(a,ah,n);
         aceleracion(r,ah,m,n);
         velocidad(r,v,a,ah,h,n);
