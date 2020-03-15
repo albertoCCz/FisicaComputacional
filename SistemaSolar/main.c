@@ -46,13 +46,14 @@ int main()
     for(iter=0;iter<N;iter++)
     {
         posicion(r,v,ah,h,n);
-        fprintf(f2,"%lf\t%lf\n",**(r+6),*(*(r+6)+1));
+        fprintf(f2,"%lf\t%lf\n",r[3][0],r[3][1]);   //escribimos en un fichero las sucesivas posiciones de la Tierra
         copyVector(a,ah,n);
         aceleracion(r,ah,m,n);
         velocidad(r,v,a,ah,h,n);
 
     }
 
+    //liberamos el espacio en memoria
     free(r);
     free(v);
     free(a);
@@ -83,6 +84,7 @@ double distThirdPow(double **r, int n, int i, int k)
 
 
 void aceleracion(double **r, double **ah, double *m, int n)
+//calcula la aceleracion de cada cuerpo
 {
     int i,j,k;
     double temp = 0.;
@@ -105,12 +107,13 @@ void aceleracion(double **r, double **ah, double *m, int n)
 }
 
 void copyVector(double **v1, double **v2, int n)
+//copia en v1 los valores guardados en el puntero de punteros v2
 {
     int i,j;
 
-    for(i=0;i<n;i++)
+    for(i=0;i<n;i++)    //puntero de puntero i
     {
-        for(j=0;j<2;j++)
+        for(j=0;j<2;j++)    //puntero j
         {
             v1[i][j] = v2[i][j];
         }
@@ -119,6 +122,7 @@ void copyVector(double **v1, double **v2, int n)
 
 
 void posicion(double **r, double **v, double **ah, double h, int n)
+//calcula la posicion de los distintos cuerpos
 {
     int i,j;
 
@@ -132,12 +136,13 @@ void posicion(double **r, double **v, double **ah, double h, int n)
 }
 
 void velocidad(double **r, double **v, double **a, double **ah, double h, int n)
+//calcula la velocidad de los distintos cuerpos
 {
     int i,j;
 
-    for(i=0;i<n;i++)
+    for(i=0;i<n;i++)    //velocidad del objeto i
     {
-        for(j=0;j<2;j++)
+        for(j=0;j<2;j++)    //componente j de la velocidad
         {
             v[i][j] = v[i][j] + h/2. * (a[i][j] + ah[i][j]);
         }
