@@ -97,7 +97,7 @@ void aceleracion(double **r, double **ah, double *m, int n)
             {
                 if(k!=i)
                 {
-                    temp = temp - m[k] * (r[i][j] - r[k][j])/distThirdPow(r,n,i,k); //actualizamos a(t+h)
+                    temp = temp - m[k] * (r[i][j] - r[k][j])/distThirdPow(r,n,i,k);
                 }
             }
 
