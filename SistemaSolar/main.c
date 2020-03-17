@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-double distThirdPow(double **r, int n, int i, int k);
+double distThirdPow(double **r, int i, int k);
 void aceleracion(double **r, double **ah, double *m, int n);
 void copyVector(double **v1, double **v2, int n);
 void posicion(double **r, double **v, double **a, double h, int n);
@@ -10,11 +10,11 @@ void velocidad(double **r, double **v, double **a, double **ah, double h, int n)
 
 int main()
 {
-    int i,iter,n,N = 10000;
+    int i,j,iter,n,N = 1000;
     double h = 0.1;
     FILE *f1,*f2;
 
-    f1 = fopen("Datos_Iniciales.txt", "r");
+    f1 = fopen("Pruevas.txt", "r");  //Datos_Iniciales.txt
     f2 = fopen("Posiciones.txt", "w");
 
     fscanf(f1,"%d",&n); //lee el numero de cuerpos del sistema
@@ -27,10 +27,10 @@ int main()
     double *m = (double *)malloc(n*sizeof(double));
     for(i=0;i<n;i++)
     {
-        *(r+i) = (double *)malloc(2*sizeof(double));
-        *(v+i) = (double *)malloc(2*sizeof(double));
-        *(a+i) = (double *)malloc(2*sizeof(double));
-        *(ah+i) = (double *)malloc(2*sizeof(double));
+        r[i] = (double *)malloc(2*sizeof(double));
+        v[i] = (double *)malloc(2*sizeof(double));
+        a[i] = (double *)malloc(2*sizeof(double));
+        ah[i] = (double *)malloc(2*sizeof(double));
     }
 
     //leemos del fichero las condiciones iniciales de la posicion y la velocidad
@@ -46,7 +46,7 @@ int main()
     for(iter=0;iter<N;iter++)
     {
         posicion(r,v,ah,h,n);
-        fprintf(f2,"%lf\t%lf\n",r[3][0],r[3][1]);   //escribimos en un fichero las sucesivas posiciones de la Tierra
+        fprintf(f2,"%lf\t%lf\n",r[1][0],r[1][1]);   //escribimos en un fichero las sucesivas posiciones de la Tierra
         copyVector(a,ah,n);
         aceleracion(r,ah,m,n);
         velocidad(r,v,a,ah,h,n);
@@ -63,7 +63,7 @@ int main()
 }
 
 
-double distThirdPow(double **r, int n, int i, int k)
+double distThirdPow(double **r, int i, int k)
 //calcula la distancia entre los cuerpos i y k y la eleva al cubo
 {
     double mod,temp = 0;
@@ -97,7 +97,7 @@ void aceleracion(double **r, double **ah, double *m, int n)
             {
                 if(k!=i)
                 {
-                    temp = temp - m[k] * (r[i][j] - r[k][j])/distThirdPow(r,n,i,k);
+                    temp = temp - m[k] * (r[i][j] - r[k][j])/distThirdPow(r,i,k); //actualizamos a(t+h)
                 }
             }
 
