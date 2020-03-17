@@ -14,7 +14,7 @@ int main()
     double h = 0.1;
     FILE *f1,*f2;
 
-    f1 = fopen("Pruevas.txt", "r");  //Datos_Iniciales.txt
+    f1 = fopen("Datos_Iniciales.txt", "r");  //Datos_Iniciales.txt
     f2 = fopen("Posiciones.txt", "w");
 
     fscanf(f1,"%d",&n); //lee el numero de cuerpos del sistema
