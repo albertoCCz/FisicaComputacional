@@ -10,8 +10,8 @@ void velocidad(double **r, double **v, double **a, double **ah, double h, int n)
 
 int main()
 {
-    int i,j,iter,n,N = 1000;
-    double h = 0.1;
+    int i,iter,n,N = 1000001;
+    double h = 0.0001;
     FILE *f1,*f2;
 
     f1 = fopen("Datos_Iniciales.txt", "r");  //Datos_Iniciales.txt
@@ -46,10 +46,23 @@ int main()
     for(iter=0;iter<N;iter++)
     {
         posicion(r,v,ah,h,n);
-        fprintf(f2,"%lf\t%lf\n",r[1][0],r[1][1]);   //escribimos en un fichero las sucesivas posiciones de la Tierra
         copyVector(a,ah,n);
         aceleracion(r,ah,m,n);
         velocidad(r,v,a,ah,h,n);
+
+        //guardamos en un fichero las sucesivas posiciones de los cuerpos
+        for(i=0;i<n;i++)
+        {
+                fprintf(f2,"%lf\t%lf",r[i][0],r[i][1]);   //escribimos en un fichero las sucesivas posiciones de la Tierra
+                if(i==n-1)
+                {
+                    fprintf(f2,"\n");
+                }
+                else
+                {
+                    fprintf(f2,"\t");
+                }
+        }
 
     }
 
@@ -77,7 +90,7 @@ double distThirdPow(double **r, int i, int k)
         }
     }
 
-    mod = pow(temp,3./2.);
+    mod = sqrt(temp);
 
     return mod;
 }
@@ -87,7 +100,14 @@ void aceleracion(double **r, double **ah, double *m, int n)
 //calcula la aceleracion de cada cuerpo
 {
     int i,j,k;
-    double temp = 0.;
+
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<2;j++)
+        {
+            ah[i][j] = 0.;
+        }
+    }
 
     for(i=0;i<n;i++)    //aceleracion del objeto i
     {
@@ -97,11 +117,13 @@ void aceleracion(double **r, double **ah, double *m, int n)
             {
                 if(k!=i)
                 {
-                    temp = temp - m[k] * (r[i][j] - r[k][j])/distThirdPow(r,i,k); //actualizamos a(t+h)
+                    ah[i][j] = ah[i][j] - m[k] * (r[i][j] - r[k][j])/pow(distThirdPow(r,i,k),3); //actualizamos a(t+h)
+                }
+                else
+                {
+                    continue;
                 }
             }
-
-            ah[i][j] = temp;
         }
     }
 }
