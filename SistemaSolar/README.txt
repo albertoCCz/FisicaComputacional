@@ -1,4 +1,4 @@
-**main.c** --->                         Programa en C de la simulación del Sistema Solar
+__main.c__ --->                         Programa en C de la simulación del Sistema Solar
 **Datos_Iniciales.txt** --->            Datos iniciales (posición, velocidad y masa) de los cuerpos
 **Posiciones.txt** --->                 Resultados de la dinámica del sistema (posiciones, energía potencial del sistema, energía   cinética del sistema)
 **Orbitas.py** --->                     Genera el plot con las órbitas de los cuerpos del problema
