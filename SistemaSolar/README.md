@@ -16,4 +16,4 @@
 
 **OribitasSistSolarRelTierra.png** ---> Plot con las ótbitas relativas a la Tierra
 
-**Conservacion_Energia.png** --->       Plot con el valor de la energía potencial, cinética y total del Sistema Solar para 200000       iteraciones. Se puede ver que se conserva
+**Conservacion_Energia.png** --->       Plot con el valor de la energía potencial, cinética y total del Sistema Solar para 20000000       iteraciones. Se puede ver que se conserva
