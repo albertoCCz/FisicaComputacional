@@ -9,6 +9,7 @@ int main()
     int i, j, dim = 10, time = 100;  //dim^2 = dimension of the net; time = time of execution (in dim^2 units)
     int timeLimit = time*pow(dim,2);    //time limit
     int T = 2;
+    double c,expt;
 
     FILE *f1,*f2;
     f1 = fopen("RandState_6531898.txt","r");    //Initial random state
@@ -29,6 +30,9 @@ int main()
         p[i] = (int *)malloc(2*sizeof(int));
     }
 
+    //pointer containing sigma value to compare with c in the algoritm
+    double *sigma = (double *)malloc(timeLimit*sizeof(double));
+
     //scan data to save it in its pointers
     //scan state
     for(i=0;i<dim;i++)
@@ -39,25 +43,24 @@ int main()
         }
     }
 
-    //scan points
+    //scan points and sigma
     for(i=0;i<timeLimit;i++)
     {
         for(j=0;j<2;j++)
         {
             fscanf(f2,"%d",p[i]+j);
         }
+        fscanf(f2,"%lf",&sigma[i]);
+
     }
 
     //Metropolis' algorthim
     for(i=0;i<timeLimit;i++)
     {
-
-
-
-
+        expt = exp(-energiaDelta(s,p[i][0],p[i][1],dim)/T);
+        c = 1. <= expt ? 1. : expt;
+        s[p[i][0]][p[i][1]] = sigma[i] < c ? -s[p[i][0]][p[i][1]] : s[p[i][0]][p[i][1]];
     }
-
-
 
     return 0;
 }
@@ -66,8 +69,9 @@ int main()
 int energiaDelta(int **s, int i, int j, int dim)
 //energy increase
 {
-    eD = 2*s[i][j](s[(i+1)%dim][j] + s[(i-1)%dim][j] + s[i][(j+1)%dim] + s[i][(j-1)%dim]);
+    int eD;
+
+    eD = 2*s[i][j]*(s[(i+1)%dim][j] + s[i-1<0 ? dim-1 : i-1][j] + s[i][(j+1)%dim] + s[i][j-1<0 ? dim-1 : j-1]);
 
     return eD;
 }
-
