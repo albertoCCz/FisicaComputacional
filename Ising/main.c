@@ -11,10 +11,10 @@ int main()
     int T = 2;
     double c,expt;
 
-    FILE *f1,*f2;
+    FILE *f1,*f2,*f3;
     f1 = fopen("RandState_6531898.txt","r");    //Initial random state
     f2 = fopen("RandPoints_6531898.txt","r");   //Random sample of points of the net
-
+    f3 = fopen("StateChanges_6531898.txt","w"); //State changes
 
     //pointer to pointer containing the initial state
     int **s = (int **)malloc(dim*sizeof(int *));
@@ -60,7 +60,16 @@ int main()
         expt = exp(-energiaDelta(s,p[i][0],p[i][1],dim)/T);
         c = 1. <= expt ? 1. : expt;
         s[p[i][0]][p[i][1]] = sigma[i] < c ? -s[p[i][0]][p[i][1]] : s[p[i][0]][p[i][1]];
+        fprintf(f3,"%d\t%d\t%d\n",p[i][0],p[i][1],s[p[i][0]][p[i][1]]);
     }
+
+    //free space and close files
+    free(s);
+    free(p);
+    free(sigma);
+    fclose(f1);
+    fclose(f2);
+    fclose(f3);
 
     return 0;
 }
