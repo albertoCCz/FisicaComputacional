@@ -6,15 +6,15 @@ int energiaDelta(int **s, int i, int j, int dim);
 
 int main()
 {
-    int i, j, dim = 10, time = 100;  //dim^2 = dimension of the net; time = time of execution (in dim^2 units)
+    int i, j, k, dim = 28, time = 10000, cienPM = dim*dim*100;  //dim^2 = dimension of the net; time = time of execution (in dim^2 units)
     int timeLimit = time*pow(dim,2);    //time limit
-    int T = 2;
+    double T = 5.0;
     double c,expt;
 
     FILE *f1,*f2,*f3;
-    f1 = fopen("RandState_6531898.txt","r");    //Initial random state
-    f2 = fopen("RandPoints_6531898.txt","r");   //Random sample of points of the net
-    f3 = fopen("StateChanges_6531898.txt","w"); //State changes
+    f1 = fopen("Systems/28_7531898/RandState_7531898.txt","r");    //Initial random state
+    f2 = fopen("Systems/28_7531898/RandPoints_7531898.txt","r");   //Random sample of points of the net
+    f3 = fopen("Systems/28_7531898/StateChanges_7531898.txt","w"); //State changes
 
     //pointer to pointer containing the initial state
     int **s = (int **)malloc(dim*sizeof(int *));
@@ -57,16 +57,43 @@ int main()
     //Metropolis' algorthim
     for(i=0;i<timeLimit;i++)
     {
-        expt = exp(-energiaDelta(s,p[i][0],p[i][1],dim)/T);
-        c = 1. <= expt ? 1. : expt;
+        expt = exp(-energiaDelta(s,p[i][0],p[i][1],dim)/(T));
+        c = (1. <= expt) ? 1. : expt;
         s[p[i][0]][p[i][1]] = sigma[i] < c ? -s[p[i][0]][p[i][1]] : s[p[i][0]][p[i][1]];
-        fprintf(f3,"%d\t%d\t%d\n",p[i][0],p[i][1],s[p[i][0]][p[i][1]]);
+
+        if((i!=0) & (i%cienPM==0))
+        //write the new state after each MC step
+        {
+            //fprintf(f3,"%d\t%d\n",p[i][0],p[i][1]);
+            fprintf(f3,"paso: %d\n",i/cienPM);
+
+            for(j=0;j<dim;j++)
+            {
+                for(k=0;k<dim;k++)
+                {
+                    fprintf(f3,"%d",s[j][k]);
+
+                    if((k+1)%dim == 0)
+                    {
+                        fprintf(f3,"\n");
+                    }
+                    else
+                    {
+                        fprintf(f3,"\t");
+                    }
+                }
+            }
+            //printf("200");
+        }
+
     }
 
     //free space and close files
+
     free(s);
     free(p);
     free(sigma);
+
     fclose(f1);
     fclose(f2);
     fclose(f3);
@@ -80,7 +107,7 @@ int energiaDelta(int **s, int i, int j, int dim)
 {
     int eD;
 
-    eD = 2*s[i][j]*(s[(i+1)%dim][j] + s[i-1<0 ? dim-1 : i-1][j] + s[i][(j+1)%dim] + s[i][j-1<0 ? dim-1 : j-1]);
+    eD = 2*(s[i][j])*(s[(i+1)%dim][j] + s[i-1<0 ? dim-1 : i-1][j] + s[i][(j+1)%dim] + s[i][j-1<0 ? dim-1 : j-1]);
 
     return eD;
 }
