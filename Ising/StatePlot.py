@@ -1,10 +1,10 @@
 from matplotlib import pyplot as plt
-from RandState import s,seed #get initial state from RandState.py
+from RandState import s,seed,dim #get initial state from RandState.py
 from PIL import Image
-from RandPoint import timeLim
 
-f = open("StateChanges_" + str(seed) + ".txt","r")
 
+f = open("Systems/" + str(dim) + "_" + str(seed) + "/StateChanges_" + str(seed) + ".txt","r")
+plt.style.use("classic")
 
 def plotSate(s,i,seed):
     """
@@ -13,28 +13,33 @@ def plotSate(s,i,seed):
     :return: image
     """
     fig, ax = plt.subplots()
+
     im = ax.imshow(s)
 
-    plt.xticks([i for i in range(10)], "")
-    plt.yticks([i for i in range(10)], "")
+    plt.xticks([i for i in range(dim)], "")
+    plt.yticks([i for i in range(dim)], "")
 
     fig.tight_layout()
-    plt.savefig("StateImages/Seed_" + str(seed) + "/State_" + str(i) +
-                "_" + str(seed) + ".jpeg")
+    plt.savefig("Systems/" + str(dim) + "_" + str(seed) + "/Images/" + str(i) +
+                ".jpeg",quality=80,optimize=True,
+                dpi=80,progressive=True,transparent=True)
     fig.clear()
     plt.close(fig)
 
 
 #Generate all the images
 images = []
-for i in range(8185):
-    #plotSate(s, i, seed)
-    line = f.readline().split("\t")
-    s[int(line[0])][int(line[1])] = line[2]
-    images.append(Image.open("StateImages/Seed_" + str(seed) +
-                             "/State_" + str(i) + "_" +
-                             str(seed) + ".jpeg"))
+for i in range(99):
+    f.readline()
+    for j in range(dim):
+        line = f.readline().split("\t")
+        for k in range(dim):
+            s[j][k] = line[k]
+    plotSate(s,i,seed)
+    images.append(Image.open("Systems/" + str(dim) + "_" +
+                             str(seed) + "/Images/" + str(i) + ".jpeg"))
 
-images[0].save("StateImages/Seed_" + str(seed) + "/States_" + str(seed) + ".gif",save_all=True,
-               append_images=images[1:],duration=10)
+images[0].save("Systems/" + str(dim) + "_" + str(seed) + "/Images/State_" +
+               str(dim) + "_" + str(seed) + ".gif",save_all=True,
+               append_images=images[1:],duration=100)
 
