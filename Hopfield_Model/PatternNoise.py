@@ -1,8 +1,8 @@
 import numpy as np
 
-dim = 5
-#num = 0
-nLevel = 0.1
+dim = 20
+num = 1
+nLevel = 0.3
 
 seed = 891651743
 np.random.seed(seed)
@@ -37,6 +37,4 @@ def patternNoise(dim,num,nLevel):
     return print("Done with " + str(num) + "!")
 
 
-for i in range(2):
-    num = i
-    patternNoise(dim,num,nLevel)
+patternNoise(dim,num,nLevel)
