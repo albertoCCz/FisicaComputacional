@@ -11,16 +11,16 @@ void solapamiento(int ***p, int **s, double *expVal, double *solap, int nP, int 
 
 int main()
 {
-    int i,j,k,nP = 1,dim = 20, N = dim*dim, pasosMC = 20;
+    int i,j,k,trash,nP = 6,dim = 100, N = dim*dim, pasosMC = 30;
     double expt,c,T = 0.0001;
     FILE *f,*g,*h,*l,*o;
 
     // Open files
-    f = fopen("Patterns/Dim20_Num1.txt","r");
-    g = fopen("PatternsNoisy/Dim20_Num1_0.3.txt","r");
-    h = fopen("Iteraciones/Dim20_pasosMC20.txt","r");
-    l = fopen("Results/Dim20_Num1_pasosMC20_States.txt","w");
-    o = fopen("Results/Dim20_Num1_pasosMC20_Solap.txt","w");
+    f = fopen("Patterns/Pruebas/Patterns.txt","r");
+    g = fopen("PatternsNoisy/Pruebas/RandomNoise100.txt","r");
+    h = fopen("Iteraciones/Dim100_pasosMC30.txt","r");
+    l = fopen("Results/Dim100_Patterns_pasosMC30_States.txt","w");
+    o = fopen("Results/Dim100_Patterns_pasosMC30_Solap.txt","w");
 
 
     // Save space for patterns matrix
@@ -74,6 +74,8 @@ int main()
                 fscanf(f,"%d",p[i][j]+k);
             }
         }
+        fscanf(f,"%d",&trash);
+        fscanf(f,"%d",&trash);
     }
 
     // Scan initial state to s
@@ -129,10 +131,11 @@ int main()
         }
         if(i%(pasosMC*N/1000)==0)
         {
+            fprintf(o,"%lf\t",1.*i/N);
             solapamiento(p,s,expVal,solap,nP,dim);  // Calcula el solapamiento del estado del sistema
             for(k=0;k<nP;k++)                       // para la iteracion i-esima con cada patron almacenado
             {
-                fprintf(o,"%lf\t%lf",solap[k],1.*i/N);
+                fprintf(o,"%lf",solap[k]);
                 if(k+1 == nP)
                 {
                     fprintf(o,"\n");

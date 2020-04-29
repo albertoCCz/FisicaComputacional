@@ -1,8 +1,8 @@
 import numpy as np
 
-dim = 20    # Pattern dimension
+dim = 100    # Pattern dimension
 N = dim*dim # Number of neurons
-pasosMC = 20    # Number of Monte Carlo steps
+pasosMC = 30    # Number of Monte Carlo steps
 
 # Create file to save data
 f = open("Iteraciones/Dim" + str(dim) + "_pasosMC" + str(pasosMC) + ".txt","w")
