@@ -50,8 +50,7 @@ def V(londa, k0, N):
 def norm(phi):
     """
     Esta función calcula la norma de la función
-    de onda, que realiza mediante la integración
-    mediante la regla de Simpson
+    de onda
     :param phi: función de onda phi
     :return:    norm (float number)
     """
