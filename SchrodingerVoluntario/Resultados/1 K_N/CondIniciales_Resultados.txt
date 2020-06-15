@@ -1,0 +1,8 @@
+# Parámetros
+n_ciclos = 10
+N = np.asarray([500, 1000, 2000], dtype=int)	<-- Ésta es la variable
+londa = 0.6
+time = 200
+
+# Resultados
+['Max_500 = 0.5695985790583354', 'Max_1000 = 0.5675363496832951', 'Max_2000 = 0.566653196503689']
