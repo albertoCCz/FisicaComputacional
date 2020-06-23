@@ -191,6 +191,7 @@ def phi(phi_prev, xi, N):
     return phi
 
 
+# Proceso de medida mediante proyeccion
 def medicion(phi, N, detector="d"):
     """
     Calcula la probabilidad de que la particula
@@ -225,7 +226,7 @@ def medicion(phi, N, detector="d"):
     else:
         return proyeccion(phi)
 
-
+# Calculo valores esperados
 def xEsperado(phi):
     """
     Calcula el valor esperado de la posición
@@ -289,6 +290,26 @@ def pIncertidumbre(phi):
     return np.sqrt(p2Esperado(phi) - pow(pEsperado(phi), 2))
 
 
+def kineticEnergy(phi):
+    """
+    Calcula la energia cinetica de la
+    onda en cada instante
+    :param phi:     funcion de onda phi
+    :return:        K
+    """
+    return np.real(- np.conjugate(phi) * np.gradient(np.gradient(phi))).sum()
+
+
+def totalEnergy(phi, V0):
+    """
+    Calcula la energia total de la onda
+    en cada instante
+    :param phi:     funcion de onda phi
+    :return:        Energia
+    """
+    return (V0 * pow(abs(phi[int(2*len(phi)/5) : int(3*len(phi)/5)]), 2)).sum() + kineticEnergy(phi)
+
+
 def tCoefficient(k0, l_onda, N):
     """
     Calcula el coeficiente de transmision
@@ -309,3 +330,4 @@ def tCoefficient(k0, l_onda, N):
     else:
         t = "NaN"
     return t
+
