@@ -1,5 +1,5 @@
 # Diccionario de scripts
-## schlib.py
+### schlib.py
 schlib.py, por Schrödinger library, es la librería donde se han definido todas las funciones necesarias para simulación del sistema físico así como para el hallar el valor de los distintos observables físicos sobre él.
 
 ## main.py
