@@ -1,5 +1,0 @@
-# Parámetros
-n_ciclos = 10
-N = 500
-londa = 0.6
-time = 200
